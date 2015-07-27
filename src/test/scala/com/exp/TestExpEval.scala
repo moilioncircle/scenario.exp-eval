@@ -60,5 +60,20 @@ class TestExpEval extends FunSuite {
               |c = 1
               |c = c""".stripMargin
     assert(eval(parse(exprs)).toString === "Map(a -> NaN, b -> NaN, c -> NaN)")
+    
+    exprs =
+      """
+        |a = b + c + d
+        |b = 1
+        |c = 1
+        |d = 1
+      """.stripMargin
+    try {
+      eval(parse(exprs)).toString
+      fail()
+    } catch {
+      case e: IllegalArgumentException => // pass
+      case _ => fail()
+    }
   }
 }
