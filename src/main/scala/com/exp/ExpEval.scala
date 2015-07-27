@@ -21,14 +21,18 @@ object ExpEval {
 
   def parseExp(name: String, exp: String): Exp = {
     exp.split(" ").filter(_.trim != "").toList match {
-      case List(left: String, "+", right: String) => Plus(parseExp(name, left), parseExp(name, right))
-      case List(left: String, "-", right: String) => Minus(parseExp(name, left), parseExp(name, right))
-      case List(left: String, "*", right: String) => Times(parseExp(name, left), parseExp(name, right))
-      case List(left: String, "/", right: String) => Divide(parseExp(name, left), parseExp(name, right))
-      case List(value: String) => if (isDouble(value)) Literal(value.toDouble) else if (name == value) Literal(Double.NaN) else Ref(value)
+      case List(left: String, "+", right: String) => Plus(parseRef(name, left), parseRef(name, right))
+      case List(left: String, "-", right: String) => Minus(parseRef(name, left), parseRef(name, right))
+      case List(left: String, "*", right: String) => Times(parseRef(name, left), parseRef(name, right))
+      case List(left: String, "/", right: String) => Divide(parseRef(name, left), parseRef(name, right))
+      case List(value: String) => parseRef(name, value)
       case Nil => Literal(Double.NaN)
       case e => throw new IllegalArgumentException(s"parse error $e")
     }
+  }
+
+  def parseRef(name: String, value: String): Exp = {
+    if (isDouble(value)) Literal(value.toDouble) else if (name == value) Literal(Double.NaN) else Ref(value)
   }
 
   def isDouble(value: String): Boolean = {
