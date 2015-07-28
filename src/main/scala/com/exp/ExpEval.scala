@@ -43,7 +43,9 @@ object ExpEval {
   }
 
   def eval(map: Map[String, Exp]): Map[String, Double] = {
-    map.map(e => (e._1 -> evalExp(e._2, map)))
+    map.map {
+      case (name, exp) => (name -> evalExp(exp, map))
+    }
   }
 
   /**
