@@ -12,7 +12,7 @@ object ExpEval {
   }
 
   def parseLine(line: String): Option[(String, Exp)] = {
-    line.split(" ").filter(_.trim != "").toList match {
+    line.split(" ").map(_.trim).filter(_ != "").toList match {
       case (name: String) :: "=" :: (exp: List[String]) => Some((name, parseExp(name, exp.mkString(" "))))
       case Nil => None
       case e => throw new IllegalArgumentException(s"parse error $e")
@@ -20,7 +20,7 @@ object ExpEval {
   }
 
   def parseExp(name: String, exp: String): Exp = {
-    exp.split(" ").filter(_.trim != "").toList match {
+    exp.split(" ").map(_.trim).filter(_ != "").toList match {
       case List(left: String, "+", right: String) => Plus(parseRef(name, left), parseRef(name, right))
       case List(left: String, "-", right: String) => Minus(parseRef(name, left), parseRef(name, right))
       case List(left: String, "*", right: String) => Times(parseRef(name, left), parseRef(name, right))
