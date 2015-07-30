@@ -32,7 +32,14 @@ object ExpEval {
    * @return the value of current expression.
    */
 
-  def evalExp(exp: Exp, map: Map[String, Exp]): Double = ???
+  def evalExp(exp: Exp, map: Map[String, Exp]): Double = exp match{
+      case Literal(x) => x
+      case Ref(x) => {if (map.exists(_._1 == x)) evalExp(map.find(_._1 == x).get._2,map.-(x)) else Double.NaN}
+      case Plus(x,y)=>evalExp(x,map)+evalExp(y,map)
+      case Minus(x,y)=>evalExp(x,map)-evalExp(y,map)
+      case Times(x,y)=>evalExp(x,map)*evalExp(y,map)
+      case Divide(x,y)=>{if (evalExp(y,map)==0) Double.NaN else evalExp(x,map)/evalExp(y,map)}
+    }
 
   def parse(rawInput: String): Map[String, Exp] = {
     rawInput.split("\n").map(parseLine).filterNot(_ == None).map(_.get).toMap
