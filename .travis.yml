@@ -1,0 +1,11 @@
+language: scala
+sudo: required
+jdk:
+    - oraclejdk7
+scala:
+    - 2.10.4
+    - 2.11.6
+branches:
+  only:
+    - master
+script: "sbt clean test"
