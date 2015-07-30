@@ -1,4 +1,4 @@
-package com.exp
+package com.moilioncircle
 
 import scala.util.{Failure, Success, Try}
 
@@ -6,6 +6,33 @@ import scala.util.{Failure, Success, Try}
  * Created by leon on 15-7-25.
  */
 object ExpEval {
+
+  /**
+   * *************************************
+   * replace ??? with your implementation.
+   * *************************************
+   * for example, the expressions are :
+   *    a = 1 + b
+   *    b = 2
+   *
+   * if you debug at evalExp, you will get something like following
+   *
+   * times 1:
+   * evalExp(exp , map) = 3.0
+   * exp = Plus(Literal(1), Ref("b"))
+   * map = Map("a" -> Plus(Literal(1), Ref("b")), "b" -> Literal(2))
+   *
+   * times 2:
+   * evalExp(exp , map) = 2.0
+   * exp = Literal(2)
+   * map = Map("a" -> Plus(Literal(1), Ref("b")), "b" -> Literal(2))
+   *
+   * @param exp the current expression.
+   * @param map all expressions. map.key is Ref.name, map.value is ref-Exp
+   * @return the value of current expression.
+   */
+
+  def evalExp(exp: Exp, map: Map[String, Exp]): Double = ???
 
   def parse(rawInput: String): Map[String, Exp] = {
     rawInput.split("\n").map(parseLine).filterNot(_ == None).map(_.get).toMap
@@ -46,16 +73,6 @@ object ExpEval {
     map.map {
       case (name, exp) => (name -> evalExp(exp, map))
     }
-  }
-
-  /**
-   * the method you need to implementation
-   * @param exp
-   * @param map
-   * @return
-   */
-  def evalExp(exp: Exp, map: Map[String, Exp]): Double = {
-    Double.NaN
   }
 
 }

@@ -1,4 +1,4 @@
-package com.exp
+package com.moilioncircle
 
 import org.scalatest._
 
@@ -60,7 +60,7 @@ class TestExpEval extends FunSuite {
               |c = 1
               |c = c""".stripMargin
     assert(eval(parse(exprs)).toString === "Map(a -> NaN, b -> NaN, c -> NaN)")
-    
+
     exprs =
       """
         |a = b + c + d
@@ -73,9 +73,9 @@ class TestExpEval extends FunSuite {
       fail()
     } catch {
       case e: IllegalArgumentException => // pass
-      case _ => fail()
+      case _: Throwable => fail()
     }
-    
+
     exprs =
       """
         |a = b + c
